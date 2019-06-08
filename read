@@ -1,0 +1,33 @@
+ 1 curl http://mirrors.estointernet.in/apache/kafka/2.2.1/kafka_2.12-2.2.1.tgz -O
+ 2  tar xvzf kafka_2.12-2.2.1.tgz
+ 3  cd kafka_2.12-2.2.1
+ 4  nohup bin/zookeeper-server-start.sh config/zookeeper.properties &
+ 5  jps
+ 6  yum install java-1.8.0-openjdk java-1.8.0-openjdk-devel -y
+ 7  alternatives --config java
+ 8  nohup bin/zookeeper-server-start.sh config/zookeeper.properties &
+ 9  jps
+10  nohup bin/kafka-server-start.sh config/server.properties &
+11  jps
+12  bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
+13  bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+14  bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+15  jps
+16  kill -9 2320 3873 3582 1999
+17  jps
+18  vi config/zookeeper.properties
+server.1=ec2-13-235-94-165.ap-south-1.compute.amazonaws.com:2181:3181
+19  vi config/server.properties
+listeners=PLAINTEXT://ec2-13-235-94-165.ap-south-1.compute.amazonaws.com:9092
+20  nohup bin/zookeeper-server-start.sh config/zookeeper.properties &
+21  jps
+22  nohup bin/kafka-server-start.sh config/server.properties &
+23  jps
+24  bin/kafka-topics.sh --create --bootstrap-server ec2-13-235-94-165.ap-south-1.compute.amazonaws.com:9092 --replication-factor 1 --partitions 1 --topic test
+25  bin/kafka-console-producer.sh --broker-list ec2-13-235-94-165.ap-south-1.compute.amazonaws.com:9092 --topic test
+                                      (consumer side)
+						
+1 cd kafka_2.12-2.2.1
+2  bin/kafka-console-consumer.sh --bootstrap-server ec2-13-235-94-165.ap-south-1.compute.amazonaws.com:9092 --topic test --from-beginn
+									  
+									  
